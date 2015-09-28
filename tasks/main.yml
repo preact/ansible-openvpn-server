@@ -1,0 +1,78 @@
+---
+- name: install needed packages
+  apt:
+    pkg: '{{ item }}'
+  with_items:
+    - openvpn
+    - easy-rsa
+
+- name: create needed easy-rsa directory
+  shell: make-cadir /etc/openvpn/easy-rsa
+  args:
+    creates: /etc/openvpn/easy-rsa
+
+- name: set up /etc/openvpn/easy-rsa/vars file
+  template:
+    src: easy-rsa.vars.j2
+    dest: /etc/openvpn/easy-rsa/vars
+
+- name: set up /etc/openvpn/server.conf file
+  template:
+    src: server.conf.j2
+    dest: /etc/openvpn/server.conf
+  notify: restart openvpn
+
+- name: copy the dh2084.pem file over
+  copy:
+    src: '{{ openvpn_dh_pem_source }}'
+    dest: /etc/openvpn/dh2048.pem
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart openvpn
+
+- name: copy the ca.crt file over
+  copy:
+    src: '{{ openvpn_ca_cert_source }}'
+    dest: /etc/openvpn/ca.crt
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart openvpn
+
+- name: copy the server.crt file over
+  copy:
+    src: '{{ openvpn_server_cert_source }}'
+    dest: /etc/openvpn/server.crt
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart openvpn
+
+- name: copy the server.key file over
+  copy:
+    src: '{{ openvpn_server_key_source }}'
+    dest: /etc/openvpn/server.key
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart openvpn
+
+- name: create ccd directory for client configs
+  file:
+    dest: /etc/openvpn/ccd
+    owner: root
+    group: root
+    state: directory
+
+- name: create all the client configs
+  template:
+    src: client-config.j2
+    dest: '/etc/openvpn/ccd/{{ item.user }}'
+  with_items: openvpn_client_configs
+  notify: restart openvpn
+
+- name: start openvpn service
+  service:
+    name: openvpn
+    state: started

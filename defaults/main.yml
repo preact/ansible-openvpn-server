@@ -1,0 +1,25 @@
+---
+# These should point to where to find the files.
+# They should not be created by the openvpn server provisioning steps.
+openvpn_dh_pem_source: false
+openvpn_ca_cert_source: false
+openvpn_server_cert_source: false
+openvpn_server_key_source: false
+
+openvpn_listen_ip: '{{ ansible_eth0.ipv4.address }}'
+
+openvpn_easyrsa_key_country: 'AA'
+openvpn_easyrsa_key_province: 'BB'
+openvpn_easyrsa_key_city: 'ExampleCity'
+openvpn_easyrsa_key_org: 'Example Org Name'
+openvpn_easyrsa_key_email: 'email@example.com'
+openvpn_easyrsa_key_ou: 'Example Department'
+
+openvpn_vpn_subnet: '10.8.0.0 255.255.0.0'
+
+openvpn_client_configs: {}
+openvpn_routes: []
+
+openvpn_reneg_sec: 3600
+
+openvpn_plugins: []
