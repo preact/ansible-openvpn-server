@@ -17,7 +17,7 @@ openvpn_easyrsa_key_ou: 'Example Department'
 
 openvpn_vpn_subnet: '10.8.0.0 255.255.0.0'
 
-openvpn_client_configs: {}
+openvpn_client_configs: []
 openvpn_routes: []
 
 openvpn_reneg_sec: 3600
