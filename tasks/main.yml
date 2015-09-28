@@ -29,6 +29,7 @@
     owner: root
     group: root
     mode: 0644
+  when: openvpn_dh_pem_source
   notify: restart openvpn
 
 - name: copy the ca.crt file over
@@ -38,6 +39,7 @@
     owner: root
     group: root
     mode: 0644
+  when: openvpn_ca_cert_source
   notify: restart openvpn
 
 - name: copy the server.crt file over
@@ -47,6 +49,7 @@
     owner: root
     group: root
     mode: 0644
+  when: openvpn_server_cert_source
   notify: restart openvpn
 
 - name: copy the server.key file over
@@ -56,6 +59,7 @@
     owner: root
     group: root
     mode: 0644
+  when: openvpn_server_key_source
   notify: restart openvpn
 
 - name: create ccd directory for client configs
