@@ -1,20 +1,7 @@
 ---
-- name: install needed packages
+- name: install openvpn package
   apt:
-    pkg: '{{ item }}'
-  with_items:
-    - openvpn
-    - easy-rsa
-
-- name: create needed easy-rsa directory
-  shell: make-cadir /etc/openvpn/easy-rsa
-  args:
-    creates: /etc/openvpn/easy-rsa
-
-- name: set up /etc/openvpn/easy-rsa/vars file
-  template:
-    src: easy-rsa.vars.j2
-    dest: /etc/openvpn/easy-rsa/vars
+    pkg: openvpn
 
 - name: set up /etc/openvpn/server.conf file
   template:
